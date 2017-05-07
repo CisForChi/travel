@@ -26,5 +26,8 @@
     "react-dom": "^15.5.4",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "react-images": "^0.5.2"
   }
 }

@@ -9,6 +9,7 @@ const notify = require('gulp-notify');
 const sass = require('gulp-sass');
 const plumber = require('gulp-plumber');
 const concat = require('gulp-concat');
+var reactImages = require("react-images")
 
 gulp.task('styles', () => {
 	return gulp.src('./src/styles/**/*.scss')
