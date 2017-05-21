@@ -1,128 +1,33 @@
-
-
-.form{
-	display:flex;
-	justify-content:center;
-	border:1px solid white;
-padding:1em;
-
-
-	width:448px;
-	margin:0 auto;
-	/* Modal Window: */
-opacity: 0.8;
-background-color: #FFFFFF;
-box-shadow: 0 2px 4px 0 rgba(0,0,0,0.11), 0 15px 14px 0 rgba(0,0,0,0.27), 0 34px 24px 0 rgba(0,0,0,0.38);
-border-radius: 5px;
-}
+@import 'https://fonts.googleapis.com/css?family=PT+Sans:400,700';
 
 body {
-	margin:0 auto;
-	background:url('https://images.unsplash.com/photo-1484387436194-cf7cb70800ce?');
-	background-size:cover;
-font-family: 'Lato', sans-serif;
-text-align:center;
-min-height:100%;
-max-width:100%;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100vh;
+	font-family: 'PT Sans';
+	font-size: 18px;
 }
-.createUserModal{
-	display:none;
+.tiles {
+	padding: 6vh 16vw;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: center;
+	position: relative;
 }
-
-input {
-	display:flex;
-
-	/* Rectangle 2 Copy: */
-background: #FFFFFF;
-border-radius: 5px;
-
-
-font-size:1em;
-color: #000000;
-letter-spacing: 2.14px;
-/* Password: */
-
-padding:1em;
-color: #777777;
-min-height:100%;
-
-}
-main {
-	display:flex;
-	flex-direction:row;
-	background:lighten(pink, 10%);
-	padding:2em;
-	margin:0 auto;
-	display:inline-flex;
-	flex-direction:column;
-
-	
-
-}
-a {
-	color:white;
-	font-size:32px;
-	display:flex;
-	padding:.25em;
-}
-li {
-	list-style:none;
-
-}
-h1 {
-	font-size:72px;
-	font-weight:100;
-	font-family:'Gokú Stencil';
-
-	color:white;
-}
-.submit {
-	/* Rectangle 2 Copy 2: */
-background-image: linear-gradient(0deg, #1A071B 32%, rgba(108,97,97,0.00) 100%);
-
-padding:1.5em;
-margin-top:1em;
-width:100%;
-font-size: 1em;
-text-transform:uppercase;
-color: #FFFFFF;
-
-
-}
-label {
-	display:flex;
-
-	/* Rectangle 2: */
-input {
-	background: #FFFFFF;
-border-radius: 5px;
-padding:1em;
-
-}
-input:focus {
-	border:none;
-	border-style:none;
-	background:white;
-
+.tile {
+	margin: 15px;
+	cursor: pointer;
+	overflow: hidden;
+	width: 18vw;
+	height: 18vw;
+	img {
+		width: 100%;
+		transition: transform 500ms ease;
+		&:hover {
+			transform: scale(1.1);
+		}
+	}
 }
 
-/* Username: */
-
-font-size: .5em;
-margin:0 auto;
-text-align:center;
-color: #777777;
-letter-spacing: 2.57px;
-padding:2em;
-}
-h2 {
-	letter-spacing:.0155em;
-	text-transform:uppercase;
-}
-
-.login
-form {
-	margin:0 auto;
-
-	width:55%;
-}

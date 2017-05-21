@@ -1,201 +1,156 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-
-
- var config = {
-    apiKey: "AIzaSyDG0LMRfhxERJZdfJGSal4KkAMPY62tF0w",
-    authDomain: "traveldiaries-8e21d.firebaseapp.com",
-    databaseURL: "https://traveldiaries-8e21d.firebaseio.com",
-    projectId: "traveldiaries-8e21d",
-    storageBucket: "traveldiaries-8e21d.appspot.com",
-    messagingSenderId: "718347196893"
-  };
-  firebase.initializeApp(config);
-
-
+const data = [{
+	id: 1,
+	name: "Island",
+	image: "https://images.unsplash.com/photo-1442530792250-81629236fe54?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=980&h=980&fit=crop&s=9631adb2d2f752e3a0734f393fef634b"
+}, {
+	id: 2,
+	name: "Forest",
+	image: "https://images.unsplash.com/photo-1468851508491-4f854ec88aa0?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=900&h=900&fit=crop&s=b1222b6a1d3694cac76d2a23c3a02254"
+}, {
+	id: 3,
+	name: "Whale",
+	image: "https://images.unsplash.com/photo-1454991727061-be514eae86f7?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=900&h=900&fit=crop&s=3c55430f01fe9ac9a9ccb3383d1416ff"
+}, {
+	id: 4,
+	name: "Mountain",
+	image: "https://images.unsplash.com/photo-1467890947394-8171244e5410?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=980&h=980&fit=crop&s=9396f0adf263b51b44626228225684d0"
+}, {
+	id: 5,
+	name: "Boat",
+	image: "https://images.unsplash.com/photo-1443302382600-0bfacc473376?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=980&h=980&fit=crop&s=0c0f26518c1001f67b6c2e4480a8d3e0"
+}, {
+	id: 6,
+	name: "Flowers",
+	image: "https://images.unsplash.com/photo-1429091443922-e7d9ae79a837?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=900&h=900&fit=crop&s=e81cb6a60c53788559edb9bec21b80fc"
+}, {
+	id: 7,
+	name: "Fire",
+	image: "https://images.unsplash.com/photo-1468245856972-a0333f3f8293?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=900&h=900&fit=crop&s=1f57cc13084e32839627453821a43abf"
+}, {
+	id: 8,
+	name: "Garden",
+	image: "https://images.unsplash.com/photo-1427392797425-39090deb14ec?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=900&h=900&fit=crop&s=8bfe49466d0da200e61128a8ab0e8fbe"
+}, {
+	id: 9,
+	name: "Bridge",
+	image: "https://images.unsplash.com/photo-1445723356089-6dbb51d9c4f8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=980&h=980&fit=crop&s=6e476c6e7ce1adac161295616d1bec05"
+}];
 
 class App extends React.Component {
-	constructor(){
-
-		super();
-
-		this.state = {
-			photos:[]
-		};
+	render() {
+		return (
+			<Tiles data={this.props.data} />
+		);
 	}
-	componentDidMount(){
-		  firebase.auth().onAuthStateChanged((user) => {
-			if(user) {
-				firebase.database().ref(`users/${user.uid}/photos`)
-					.on('value', (res) => {
-						let userData = res.val();
-						let dataArray = [];
-						for(let key in userData) {
-							userData[key].key = key;
-							dataArray.push(userData[key])
-						}
-						this.setState({
-							photos: dataArray
-						});
-					});
-			}
-		});
-			this.uploadPhoto = this.uploadPhoto.bind(this);
-			// this.createEmail = this.createEmail.bind(this);
-			// this.createPassword = this.createPassword.bind(this);
-			// this.confirmPassword = this.confirmPassword.bind(this);
-			// this.userPassword = this.userPassword.bind(this);
-			// this.userEmail = this.userEmail.bind(this);
-			// this.createUserModal = this.createUserModal.bind(this);
-			this.loginUser = this.loginUser.bind(this);
-	}
+}
 
-componentDidMount() {
-				}
-		showLoginModal(e) {
-		e.preventDefault();
-		this.loginModal.classList.add('show');
-		this.toggleOverlay.call(this);
+class Tiles extends React.Component {
+	render() {
+		// Create tile for each item in data array
+		// Pass data to each tile and assign a key
+		return (
+			<div className="tiles">
+				{this.props.data.map((data) => {
+					return <Tile data={data} key={data.id} />
+				})}
+			</div>
+		);
 	}
-	loginUser(e) {
-		e.preventDefault();
-		const user = {
-			email: this.userEmail.value,
-			password: this.userPassword.value
+}
+
+class Tile extends React.Component {
+	constructor(props) {
+			super(props);
+			this.state = {
+				open: false,
+				mouseOver: false
+			};
+			// Bind properties to class instance
+			this._clickHandler = this._clickHandler.bind(this);
+			this._mouseEnter = this._mouseEnter.bind(this);
+			this._mouseLeave = this._mouseLeave.bind(this);
 		}
-		firebase.auth()
-			.signInWithEmailAndPassword(user.email,user.password)
-			.then((res) => {
-				this.loginModal.classList.remove('show');
-				this.toggleOverlay.call(this);
+		// Event handlers to modify state values
+	_mouseEnter(e) {
+		e.preventDefault();
+		if (this.state.mouseOver === false) {
+			console.log(this.props.data.name);
+			this.setState({
+				mouseOver: true
 			})
-			.catch((err) => {
-				alert(err.message);
-			});
-	}
-	createModal(e) {
-		e.preventDefault();
-		this.createUserModal.classList.add('show');
-		this.toggleOverlay.call(this);
-	}
-	createUser(e) {
-		e.preventDefault();
-
-		const user = {
-			email: this.createEmail.value,
-			password: this.createPassword.value,
-			confirm: this.confirmPassword.value
-		};
-		if(user.confirm !== user.password) {
-			alert('Please make sure you passwords match.');
-			return;
 		}
-		firebase.auth()
-			.createUserWithEmailAndPassword(user.email,user.password)
-			.then((res) => {
-				this.createUserModal.classList.remove('show');
-				this.toggleOverlay.call(this);
+	}
+	_mouseLeave(e) {
+		e.preventDefault();
+		if (this.state.mouseOver === true) {
+			this.setState({
+				mouseOver: false
 			})
-			.catch((err) => {
-				alert(err.message)
+		}
+	}
+	_clickHandler(e) {
+		e.preventDefault();
+		if (this.state.open === false) {
+			this.setState({
+				open: true
 			});
-
+		} else {
+			this.setState({
+				open: false
+			});
+		}
 	}
 
-	uploadPhoto(e) {
-        console.log('upload photo')
-        let file = e.target.files[0];
-        const storageRef = firebase.storage().ref('photos/' + file.name);
-        const task = storageRef.put(file).then(() => {
-            const urlObject = storageRef.getDownloadURL().then((data) => {
-                console.log("picture", data);
-                this.setState ({
-                    photo: data
-                })
-            })
-        });
+	render() {
+		// Modify styles based on state values
+		let tileStyle = {};
+		let headerStyle = {};
+		let zoom = {};
+		// When tile clicked
+		if (this.state.open) {
+			tileStyle = {
+				width: '62vw',
+				height: '62vw',
+				position: 'absolute',
+				top: '50%',
+				left: '50%',
+				margin: '0',
+				marginTop: '-31vw',
+				marginLeft: '-31vw',
+				boxShadow: '0 0 40px 5px rgba(0, 0, 0, 0.3)',
+				transform: 'none'
+			};
+		} else {
+			tileStyle = {
+				width: '18vw',
+				height: '18vw'
+			};
+		}
 
-    }
+		return (
+			
+<div>
+			<div className="tile">
+				<img
+					onMouseEnter={this._mouseEnter}
+					onMouseLeave={this._mouseLeave}
+					onClick={this._clickHandler}
+					src={this.props.data.image}
+					alt={this.props.data.name}
+					style={tileStyle}
+				/>
+			
+		
+			</div>	
 
-    render() {
-     	return (
-      		<div class="container">
-        	<div className="header">
-         		<h1>
-      			 Where Do You Go?
-        		 </h1>
-        		   <div className="form">
-         
-        
-       
-
-     
-       
-
-         	<div className="overlay" ref={ref => this.overlay = ref}>
-
-       
-         
-				<div className="loginModal modal" ref={ref => this.loginModal = ref}>
-					<form action="" onSubmit={e => this.loginUser.call(this,e)}>
-						<div>
-						 
-							<label className="email" htmlFor="email">Email:</label>
-							<input type="text" name="email" ref={ref => this.userEmail = ref}/>
-						</div>
-						<div>
-							<label htmlFor="password">Password:</label>
-							<input type="password" name="password" ref={ref => this.userPassword = ref}/>
-						</div>
-						<div>
-							<input className="submit" type="submit" value="login"/>
-						</div>
-					</form>
-				</div>
-				
-				<div className="createUserModal modal" ref={ref => this.createUserModal = ref}>
-					<form action="" onSubmit={e => this.createUser.call(this,e)}>
-						<div>
-							<label htmlFor="createEmail">Email:</label>
-							<input type="text" name="createEmail" ref={ref => this.createEmail = ref}/>
-						</div>
-						<div>
-							<label htmlFor="createPassword">Password:</label>
-							<input type="password" name="createPassword" ref={ref => this.createPassword = ref}/>
-						</div>
-						<div>
-							<label htmlFor="confirmPassword">Confirm Password:</label>
-							<input type="password" name="confirmPassword" ref={ref => this.confirmPassword = ref}/>
-						</div>
-						<div>
-							<input type="submit"/>
-						</div>
-					</form>
-				</div>
-        </div>
-        </div>
-        <div> 
-        	<input type="file" accept="image/*" onChange={this.uploadPhoto}/>
-			<img src={this.state.photo}/>
-		</div>
-		<div>
-        <img src={this.state.Uploadphoto}/>
-        </div>
-        	<div class="submitBtn">
-        	<input className="uploadPhoto" type="submit" value="Add Photo"/>
-           </div>
-		  
-     
-     
-   
-    
-   
-     </div>
-     </div>
-      )
-
-    }
+			</div>
+		);
 	}
+}
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(
+	<App data={data} />,
+	app
+);
